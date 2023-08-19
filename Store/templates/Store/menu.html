@@ -1,0 +1,116 @@
+<!-- menu.html -->
+
+<!DOCTYPE html>
+{% extends 'baseT/base.html' %}
+{% block navbar %}
+               <nav class="site-navigation position-relative text-center" role="navigation">
+
+              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li class="active"><a href="/"><span>Home</span></a></li>
+                <li class="has-children">
+                  <a href="about.html"><span>Dropdown</span></a>
+                  <ul class="dropdown arrow-top">
+                    <li><a href="#">Menu One</a></li>
+                    <li><a href="#">Menu Two</a></li>
+                    <li><a href="#">Menu Three</a></li>
+                    <li class="has-children">
+                      <a href="#">Dropdown</a>
+                      <ul class="dropdown">
+                        <li><a href="#">Menu One</a></li>
+                        <li><a href="#">Menu Two</a></li>
+                        <li><a href="#">Menu Three</a></li>
+                        <li><a href="#">Menu Four</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="listings.html"><span>Listings</span></a></li>
+                <li><a href="about.html"><span>About</span></a></li>
+                <li><a href='{%  url 'cart' %}'><span>Cart</span></a></li>
+                  {% if username == '' %}
+                <li><a href='/store/login'><span>Login</span></a></li>
+                  {% else %}
+                  <li><a href='{% url 'logout' %}'><span>Logout</span></a></li>
+                    {% endif %}
+              </ul>
+            </nav>
+{% endblock %}
+{% block content %}
+  <h1 style="color: navajowhite;">{{ store }}</h1>
+
+  <div class="p-3 mb-2 bg-white text-dark bg-opacity-50 rounded">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <a href="{% url 'merchant' %}" class="btn btn-primary ml-auto">Edit</a>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Food Item</th>
+          <th>Regular Price</th>
+          <th>Discounted Price</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for food in menu %}
+          <tr>
+            <td>{{ food.name }}</td>
+            <td>{{ food.price }} tk.</td>
+            <td>
+              {% if food.id in discounted_prices %}
+                {{ discounted_prices.food.id }} tk.
+              {% else %}
+                N/A
+              {% endif %}
+            </td>
+            <td>
+              <form method="POST" class="add-to-cart-form">
+                {% csrf_token %}
+                <input type="hidden" name="food_id" value="{{ food.id }}">
+                <button type="submit" class="btn btn-info">Add to Cart</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="container-fluid rounded bg-dark">
+      {% for message in messages %}
+        <li style="color: #ff0000"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </div>
+  </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(".add-to-cart-form").submit(function(event) {
+      event.preventDefault();  // Prevent form submission
+
+      var form = $(this);
+      var formData = form.serialize();
+
+      $.ajax({
+        type: "POST",
+        url: form.attr("action"),  // Use the form's action attribute
+        data: formData,
+        success: function(response) {
+          // Update the UI or show a message indicating success
+        },
+        error: function() {
+          // Handle errors if needed
+        }
+      });
+    });
+  });
+</script>
+
+
+{% endblock %}
+
+
+
+

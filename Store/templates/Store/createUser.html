@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New User</title>
+{% extends 'Login/index.html' %}
+{% block content %}
+                  <form method="POST" class="login100-form validate-form">
+                  {% csrf_token %}
+
+					<span class="login100-form-title p-b-49">
+						Create New User
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is required">
+						<span class="label-input100">{{ form.username.label }}</span>
+                        <input type="text" name="{{ form.username.name }}" value="{{ form.username.value }}" class="input100" placeholder="Type your Username">
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+
+                      <div class="wrap-input100 validate-input m-b-23" data-validate = "Email is required">
+						<span class="label-input100">{{ form.email.label }}</span>
+					     <input type="text" name="{{ form.email.name }}" value="{{ form.email.value }}" class="input100" placeholder="Type your Username" >
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+
+                      <div class="wrap-input100 validate-input m-b-23" data-validate = "Group is required">
+						<span class="label-input100">{{ form.group.label }}</span>
+                            {{ form.group }}
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Password is required">
+						<span class="label-input100">{{ form.password1.label }}</span>
+						<!-- <input class="input100" type="password" name="pass" placeholder="Type your password" {{ form.password1}} -->
+                        <input type="password" name="{{ form.password1.name }}" value="{{ form.password1.value }}" class="input100" placeholder="Type your Username">
+						<span class="focus-input100" data-symbol="&#xf190;"></span>
+					</div>
+                      <div class="wrap-input100 validate-input" data-validate="Password is required">
+						<span class="label-input100">{{ form.password2.label }}</span>
+						<input type="password" name="{{ form.password2.name }}" value="{{ form.password2.value }}" class="input100" placeholder="Type your Username">
+						<span class="focus-input100" data-symbol="&#xf190;"></span>
+					</div>
+
+
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" type="submit">
+								Register
+							</button>
+						</div>
+					</div>
+
+					<div class="flex-col-c p-t-155">
+						<span class="txt1 p-b-17">
+							Or Login
+						</span>
+
+						<a href="/store/login" class="txt2">
+							Login
+						</a>
+					</div>
+				</form>
+
+
+
+    {% endblock %}

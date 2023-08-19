@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends 'baseT/base.html' %}
+
+{% block navbar %}
+               <nav class="site-navigation position-relative text-center" role="navigation">
+
+              <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li class="active"><a href="/"><span>Home</span></a></li>
+                <li class="has-children">
+                  <a href="about.html"><span>Dropdown</span></a>
+                  <ul class="dropdown arrow-top">
+                    <li><a href="#">Menu One</a></li>
+                    <li><a href="#">Menu Two</a></li>
+                    <li><a href="#">Menu Three</a></li>
+                    <li class="has-children">
+                      <a href="#">Dropdown</a>
+                      <ul class="dropdown">
+                        <li><a href="#">Menu One</a></li>
+                        <li><a href="#">Menu Two</a></li>
+                        <li><a href="#">Menu Three</a></li>
+                        <li><a href="#">Menu Four</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><a href="listings.html"><span>Listings</span></a></li>
+                <li><a href="about.html"><span>About</span></a></li>
+                <li><a href='{%  url 'cart' %}'><span>Cart</span></a></li>
+                  {% if username == '' %}
+                <li><a href='/store/login'><span>Login</span></a></li>
+                  {% else %}
+                  <li><a href='{% url 'logout' %}'><span>Logout</span></a></li>
+                    {% endif %}
+              </ul>
+            </nav>
+{% endblock %}
+
+{% block content %}
+    <h1 style="color: #f7f7f7">{{ username }}</h1>
+<div class="row mt-4">
+    {% for E in eBooks %}
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+        <img width="600" height="300" src="{{ E.cvr_url }}" class="card-img-top" alt="...">
+        <div class="card-body  bg-opacity-50 rounded">
+            <h5 class="card-title">{{ E.title }}</h5>
+            <form method="post" action={% url 'menu' %}>
+                {% csrf_token %}
+              <input type="hidden" name="shop" value={{ E.title }}>
+              <button  class="btn btn-primary" type="submit" name="id" value="{{ E.id }}">Visit</button>
+            </form>
+
+        </div>
+    </div>
+    </div>
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}
